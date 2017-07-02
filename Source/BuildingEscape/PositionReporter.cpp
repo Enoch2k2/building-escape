@@ -18,9 +18,7 @@ UPositionReporter::UPositionReporter()
 void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
-	
+	UE_LOG(LogTemp, Warning, TEXT("Position report reporting for duty on chair!"))
 }
 
 
@@ -28,7 +26,6 @@ void UPositionReporter::BeginPlay()
 void UPositionReporter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	// ...
 }
 
