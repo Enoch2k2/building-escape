@@ -27,31 +27,18 @@ void UOpenDoor::BeginPlay()
 	if (!Owner) {UE_LOG(LogTemp, Warning, TEXT("There is no Owner Component"))}
 }
 
-void UOpenDoor::OpenDoor()
-{
-	if (!Owner) { return; }
-	Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f));
-}
-
-void UOpenDoor::CloseDoor()
-{
-	if (!Owner) { return; }
-	Owner->SetActorRotation(FRotator(0.f, 0.f, 0.f));
-}
-
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// Poll The Trigger Volume
-	if (GetTotalMassOfActorsOnPlate() > 30.f) { // TODO make into parameter
-		OpenDoor();
-		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
+	if (GetTotalMassOfActorsOnPlate() > TriggerMass) { // TODO make into parameter
+		OnOpen.Broadcast();
 	}
-	// Check if it's time to close the door
-	if (GetWorld()->GetTimeSeconds() - LastDoorOpenTime >= DoorCloseDelay) {
-		CloseDoor();
+	else {
+		// Check if it's time to close the door
+		OnClose.Broadcast();
 	}
 }
 
